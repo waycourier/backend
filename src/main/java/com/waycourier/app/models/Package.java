@@ -3,44 +3,30 @@ package com.waycourier.app.models;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import org.hibernate.annotations.UuidGenerator;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.waycourier.app.constants.PackageStatus;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "packages")
+@Document
 public class Package {
 	@Id
-	@UuidGenerator
 	String pkg_id;
 
-	@Column(name = "pkg_addrs")
 	String pkgAddress;
 
-	@Column(name = "pkg_recpt_mob_no")
 	String recptMobNo;
 
-	@Column(name = "pkg_long")
 	double pkgLognitude;
 
-	@Column(name = "pkg_latd")
 	double pkgLatitude;
 
-	@Column(name = "pkg_status")
 	PackageStatus pkgStatus;
 
-	@Column(name = "pkg_rec_end_date")
 	Date recEndDate;
 
-	@Column(name = "pkg_createdAt")
 	LocalDateTime createdAt;
 
-	@Column(name = "pkg_frgl")
 	boolean isFragile;
 
 	public String getPkg_id() {
