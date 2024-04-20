@@ -1,6 +1,5 @@
 package com.waycourier.app.models;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
@@ -8,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.waycourier.app.constants.PackageStatus;
 
-@Document
+@Document(collection = "packages")
 public class Package {
 	@Id
 	String pkg_id;
@@ -17,7 +16,7 @@ public class Package {
 
 	String recptMobNo;
 
-	double pkgLognitude;
+	double pkgLongitude;
 
 	double pkgLatitude;
 
@@ -25,7 +24,7 @@ public class Package {
 
 	Date recEndDate;
 
-	LocalDateTime createdAt;
+	Date createdAt;
 
 	boolean isFragile;
 
@@ -53,12 +52,12 @@ public class Package {
 		this.recptMobNo = recptMobNo;
 	}
 
-	public double getPkgLognitude() {
-		return pkgLognitude;
+	public double getPkgLongitude() {
+		return pkgLongitude;
 	}
 
-	public void setPkgLognitude(double pkgLognitude) {
-		this.pkgLognitude = pkgLognitude;
+	public void setPkgLongitude(double pkgLongitude) {
+		this.pkgLongitude = pkgLongitude;
 	}
 
 	public double getPkgLatitude() {
@@ -85,11 +84,11 @@ public class Package {
 		this.recEndDate = recEndDate;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
