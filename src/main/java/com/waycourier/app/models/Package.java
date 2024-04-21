@@ -26,7 +26,9 @@ public class Package {
 
 	Date createdAt;
 
-	boolean isFragile;
+	boolean fragile;
+	
+	String username;
 
 	public String getPkg_id() {
 		return pkg_id;
@@ -93,11 +95,18 @@ public class Package {
 	}
 
 	public boolean isFragile() {
-		return isFragile;
+		return fragile;
 	}
 
-	public void setFragile(boolean isFragile) {
-		this.isFragile = isFragile;
+	public void setFragile(boolean fragile) {
+		this.fragile = fragile;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

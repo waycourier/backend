@@ -1,6 +1,7 @@
 package com.waycourier.app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ public class PackageController {
 	ResponseEntity<?> addPackage(@RequestBody Package inpPkg) {
 		Package createdPkg = pkgService.createPackage(inpPkg);
 
-		return ResponseEntity.ok(createdPkg);
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdPkg);
 
 	}
 

@@ -2,16 +2,14 @@ package com.waycourier.app.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import com.waycourier.app.to.ErrorMessage;
 
-@RestController
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 	 @ExceptionHandler(HttpClientErrorException.class)
 	    public ResponseEntity<ErrorMessage> handleStatusCodeException(HttpStatusCodeException e) {
