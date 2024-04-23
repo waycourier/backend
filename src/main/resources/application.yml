@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: waycourier
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/waycourier
