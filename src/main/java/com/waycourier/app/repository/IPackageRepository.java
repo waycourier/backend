@@ -9,5 +9,5 @@ import com.waycourier.app.models.Package;
 
 @Repository
 public interface IPackageRepository extends MongoRepository<Package, String> {
-	Optional<Package> findPackageById(String id);
+    Optional<Package> findByPackageId(String id);
 }

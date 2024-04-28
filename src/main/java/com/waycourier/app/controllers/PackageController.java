@@ -12,17 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.waycourier.app.models.Package;
 import com.waycourier.app.service.PackageService;
+import com.waycourier.app.to.PackageDataTO;
 
 @RestController
 @RequestMapping("/api/packages")
 public class PackageController {
+	
 	@Autowired
-	PackageService pkgService;
+	PackageService packageService;
 
 	// "POST - /api/packages/ -> creates a new Package entity
-	@PostMapping("/")
-	ResponseEntity<?> addPackage(@RequestBody Package inpPkg) {
-		Package createdPkg = pkgService.createPackage(inpPkg);
+	@PostMapping
+	ResponseEntity<?> addPackage(@RequestBody PackageDataTO packageDataTO) {
+		Package createdPkg = packageService.createPackage(packageDataTO);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdPkg);
 
@@ -31,7 +33,7 @@ public class PackageController {
 	// "GET - /api/packages/Pk001 -> finds package having mentioned packageId
 	@GetMapping("/{pkgId}")
 	ResponseEntity<?> getPackageById(@PathVariable String pkgId) {
-			return ResponseEntity.ok(pkgService.findPackagesById(pkgId));
+			return ResponseEntity.ok(packageService.findPackagesById(pkgId));
 	}
 
 }

@@ -2,17 +2,24 @@ package com.waycourier.app.models;
 
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.waycourier.app.constants.PackageStatus;
+
+import jakarta.persistence.Id;
 
 @Document(collection = "packages")
 public class Package {
 	@Id
-	String pkg_id;
+	String _id;
+
+	@Field(name = "pkg_id")
+	String packageId;
 
 	String pkgAddress;
+
+	String packageName;
 
 	String recptMobNo;
 
@@ -30,12 +37,12 @@ public class Package {
 	
 	String username;
 
-	public String getPkg_id() {
-		return pkg_id;
+	public String getPackageId() {
+		return packageId;
 	}
 
-	public void setPkg_id(String pkg_id) {
-		this.pkg_id = pkg_id;
+	public void setPackageId(String pkg_id) {
+		this.packageId = pkg_id;
 	}
 
 	public String getPkgAddress() {
@@ -109,4 +116,22 @@ public class Package {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public String toString() {
+        return "Package [pkg_id=" + packageId + ", pkgAddress=" + pkgAddress + ", packageName=" + packageName
+                + ", recptMobNo=" + recptMobNo + ", pkgLongitude=" + pkgLongitude + ", pkgLatitude=" + pkgLatitude
+                + ", pkgStatus=" + pkgStatus + ", recEndDate=" + recEndDate + ", createdAt=" + createdAt + ", fragile="
+                + fragile + ", username=" + username + "]";
+    }
+
+	
 }
