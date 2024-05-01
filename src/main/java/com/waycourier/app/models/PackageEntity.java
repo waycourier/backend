@@ -1,7 +1,11 @@
 package com.waycourier.app.models;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.waycourier.app.to.Location;
+
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 @Document(collection = "package_geo_index")
 public class PackageEntity {
@@ -11,6 +15,9 @@ public class PackageEntity {
     private String packageName;
     private String geoHash;
 
+    @Transient
+    private Location location;
+
     protected PackageEntity() {
     }
 
@@ -19,6 +26,7 @@ public class PackageEntity {
         this.packageName = packageName;
         this.geoHash = geoHash;
     }
+    
     
     public String getId() {
         return id;
@@ -50,5 +58,13 @@ public class PackageEntity {
     @Override
     public String toString() {
         return "PackageSearch [id=" + id + ", packageName=" + packageName + ", geoHash=" + geoHash + "]";
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }
