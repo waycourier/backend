@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.waycourier.app.models.Package;
 import com.waycourier.app.service.PackageService;
-import com.waycourier.app.to.PackageDataTO;
+import com.waycourier.app.to.PackageRequestTO;
 
 @RestController
 @RequestMapping("/api/packages")
@@ -22,18 +22,28 @@ public class PackageController {
 	PackageService packageService;
 
 	// "POST - /api/packages/ -> creates a new Package entity
-	@PostMapping
-	ResponseEntity<?> addPackage(@RequestBody PackageDataTO packageDataTO) {
+	@PostMapping("/")
+	ResponseEntity<?> addPackage(@RequestBody PackageRequestTO packageDataTO) {
 		Package createdPkg = packageService.createPackage(packageDataTO);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdPkg);
 
+	}
+	
+	@GetMapping("/")
+	String hello() {
+		return "Hello World";
 	}
 
 	// "GET - /api/packages/Pk001 -> finds package having mentioned packageId
 	@GetMapping("/{pkgId}")
 	ResponseEntity<?> getPackageById(@PathVariable String pkgId) {
 			return ResponseEntity.ok(packageService.findPackagesById(pkgId));
+	}
+	
+	@PostMapping("/update")
+	ResponseEntity<?> updatePackage(@RequestBody PackageRequestTO pkg){
+		return ResponseEntity.ok(packageService.updatePkgDetails(pkg));
 	}
 
 }

@@ -2,6 +2,7 @@ package com.waycourier.app.models;
 
 import java.util.Date;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -13,7 +14,7 @@ import jakarta.persistence.Id;
 public class Package {
 	@Id
 	String _id;
-
+	@Indexed(unique = true)
 	@Field(name = "pkg_id")
 	String packageId;
 

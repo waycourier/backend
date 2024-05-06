@@ -5,5 +5,6 @@ public enum PackageStatus {
 	DELIVERED, 
 	ACCEPTED, 
 	NOT_ACCEPTED,
-	CANCELLED
+	CANCELLED,
+	CREATED
 }
