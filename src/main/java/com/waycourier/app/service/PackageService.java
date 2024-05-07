@@ -43,6 +43,7 @@ public class PackageService {
 			createdPackage.setPkgStatus(PackageStatus.CREATED);
 			createdPackage.setFragile((pkg.fragile() != null && pkg.fragile()) ? true : false);
 			createdPackage.setUsername(pkg.username());
+			createdPackage.setRecptMobNo(pkg.recptMobNo());
 			
 			createdPackage = pkgRepo.save(createdPackage);
 

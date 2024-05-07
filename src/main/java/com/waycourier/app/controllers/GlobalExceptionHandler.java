@@ -13,7 +13,7 @@ import com.waycourier.app.to.ErrorMessage;
 public class GlobalExceptionHandler {
 	 @ExceptionHandler(HttpClientErrorException.class)
 	    public ResponseEntity<ErrorMessage> handleStatusCodeException(HttpStatusCodeException e) {
-		 ErrorMessage errorMessage = new ErrorMessage(e.getStatusCode().value(), e.getStatusText(), e.getMessage());
+		 ErrorMessage errorMessage = new ErrorMessage(e.getStatusCode().value(), e.getStatusCode().toString(), e.getStatusText());
 			return ResponseEntity.status(e.getStatusCode()).body(errorMessage);
 	    }
 

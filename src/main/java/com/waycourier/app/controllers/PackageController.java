@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.waycourier.app.models.Package;
 import com.waycourier.app.service.PackageService;
 import com.waycourier.app.to.PackageRequestTO;
+import com.waycourier.app.utility.RequestResponseHandler;
 
 @RestController
 @RequestMapping("/api/packages")
@@ -29,16 +30,11 @@ public class PackageController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdPkg);
 
 	}
-	
-	@GetMapping("/")
-	String hello() {
-		return "Hello World";
-	}
 
 	// "GET - /api/packages/Pk001 -> finds package having mentioned packageId
 	@GetMapping("/{pkgId}")
 	ResponseEntity<?> getPackageById(@PathVariable String pkgId) {
-			return ResponseEntity.ok(packageService.findPackagesById(pkgId));
+			return ResponseEntity.ok(RequestResponseHandler.getPackageRespTO(packageService.findPackagesById(pkgId)));
 	}
 	
 	@PostMapping("/update")

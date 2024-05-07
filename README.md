@@ -21,11 +21,11 @@ WayCourier is a Spring Boot backend project aimed at allowing users to deliver p
       "deliveryAddress": "Address of the recipient",
       "packageName": "Type/ANy name of the package",
       "location": {
-          "lat": latitude,
-          "lng": longitude
+          "lat": "latitude",
+          "lng": "longitude"
       },
       "recptMobNo": "Recipient mobile number",
-      "fragile": Boolean value true/false,
+      "fragile": "Boolean value true/false",
       "username": "Username of the user who is creating the package request"
   }
 ```
@@ -41,7 +41,7 @@ WayCourier is a Spring Boot backend project aimed at allowing users to deliver p
 #### Response Body (200)
 ```json
    {
-       "pkg_id": "Pakcage ID",
+       "pkg_id": "Package ID",
        "pkgAddress": "Full Address of the package",
        "recptMobNo": "Recipient Mobile no",
        "pkgLongitude": "Delivery point longitude",
@@ -64,7 +64,7 @@ WayCourier is a Spring Boot backend project aimed at allowing users to deliver p
    {
       "package": "package ID"
       "recptMobNo": "Recipient mobile number",
-      "fragile": Boolean value true/false,
+      "fragile": "Boolean value true/false",
       "pkgStatus": "IN_TRANSIT/	DELIVERED/ ACCEPTED/ NOT_ACCEPTED/ CANCELLED/ CREATED"
   }
 ```
