@@ -15,13 +15,21 @@ import com.waycourier.app.repository.IUserRepository;
 public class UserService {
 	@Autowired
 	IUserRepository userRepo;
+	
+	/*
+	 * @Autowired PasswordEncoder passwordEncoder;
+	 */
 
 	public User createNewUser(User user) {
-
+		if(user.getUsername() == null || user.getPassword() == null || user.getEmail() == null)
+			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Username, Password and Email are mandatory.");
+		
+		user.setPassword(/*passwordEncoder.encode(*/user.getPassword());
+		
 		User createdUser = userRepo.save(user);
 
 		if (createdUser == null)
-			new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Unable to create user.");
+			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Unable to create user.");
 
 		return createdUser;
 
@@ -29,7 +37,7 @@ public class UserService {
 	
 	public User getUserdetailsByUsername(String username) {
 		if (username == null || !StringUtils.hasText(username))
-			new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Username is mandatory.");
+			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Username is mandatory.");
 		
 		List<User> user = userRepo.findByUsername(username);
 		
