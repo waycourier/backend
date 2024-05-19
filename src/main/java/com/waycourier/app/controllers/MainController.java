@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.waycourier.app.models.PackageEntity;
+import com.waycourier.app.models.PackageIndex;
 import com.waycourier.app.service.LocationService;
 import com.waycourier.app.to.Location;
 
@@ -26,7 +26,7 @@ public class MainController {
     @GetMapping("/search")
     public ResponseEntity<?> getNearbyPackages(@RequestParam("lat") double lat, @RequestParam("lng") double lng) {
         Location loc = new Location(lat, lng);
-        List<PackageEntity> nearbyPackageIndexes = locationService.getNearbyPackageIndexes(loc);
+        List<PackageIndex> nearbyPackageIndexes = locationService.getNearbyPackageIndexes(loc);
 
         return ResponseEntity.ok(nearbyPackageIndexes);
     }

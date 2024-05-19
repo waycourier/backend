@@ -1,12 +1,16 @@
 spring:
   application:
     name: waycourier
-  data:
-    mongodb:
-      authentication-database: admin
-      host: localhost
-      port: 27017
-      database: waycourier
+  datasource:
+    url: jdbc:postgresql://localhost:5432/location-service
+    username: admin
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   security:
     user:
       name: admin

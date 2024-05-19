@@ -1,73 +1,38 @@
 package com.waycourier.app.models;
 
-
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
+import lombok.ToString;
 
-@Document(collection = "users")
+@Entity
+@Data
+@ToString
 public class User {
 	@Id
-	String username;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column
+	private Integer id;
+
+	@Column
+	private String username;
 	
-	String firstName;
-	
-	String lastName;
-	
-	String password;
-	
-	String mobileNo;
-	
-	String email;
-	
+	@Column
+	private String firstName;
+		
+	@Column
+	private String lastName;
+		
+	@Column
+	private String password;
+		
+	@Column
+	private String mobileNo;
+		
+	@Column
+	private String email;
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(String mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	
 }

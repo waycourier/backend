@@ -6,38 +6,29 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.waycourier.app.models.Package;
-import com.waycourier.app.models.PackageEntity;
-import com.waycourier.app.repository.IPackageRepository;
-import com.waycourier.app.repository.PackageEntityRepository;
+import com.waycourier.app.models.PackageIndex;
+import com.waycourier.app.repository.IPackageIndexRepository;
 import com.waycourier.app.to.Location;
 import com.waycourier.app.utility.GeoUtil;
 
 @Service
 public class LocationService {
+
     private final int DEFAULT_LOC_PRECISION = 6;
+    private final IPackageIndexRepository packageIndexRepository;
 
     @Autowired
-    private PackageEntityRepository packageEntityRepository;
+    public LocationService(IPackageIndexRepository packageIndexRepository) {
+        this.packageIndexRepository = packageIndexRepository;
+    }
 
-    @Autowired
-    private IPackageRepository packageRepository;
+    public List<PackageIndex> getNearbyPackageIndexes(Location location) {
 
-    public List<PackageEntity> getNearbyPackageIndexes(Location location) {
         String geohash = GeoUtil.getGeoHash(location, DEFAULT_LOC_PRECISION);
+        List<PackageIndex> nearbyPackages = packageIndexRepository.findByGeoHashLike(geohash.substring(0, 6));
 
-        List<PackageEntity> nearbyPackages = packageEntityRepository
-            .findByGeoHashLike(geohash.substring(0, 6));
-
+        // TODO: need to convert this to pagination
         nearbyPackages = nearbyPackages.stream().limit(10).toList();
-
-        for(PackageEntity pkg : nearbyPackages) {
-            Optional<Package> byPackageId = packageRepository.findByPackageId(pkg.getPackageId());
-            if(byPackageId.isPresent()) {
-                Package p = byPackageId.get();
-                pkg.setLocation(new Location(p.getPkgLatitude(), p.getPkgLongitude()));
-            }
-        }
 
         return nearbyPackages;
     }

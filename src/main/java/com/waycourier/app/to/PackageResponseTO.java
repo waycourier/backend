@@ -1,74 +1,32 @@
 package com.waycourier.app.to;
 
 import com.waycourier.app.constants.PackageStatus;
+import com.waycourier.app.models.Package;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@NoArgsConstructor
+@Data
+@ToString
 public class PackageResponseTO {
-	private String packageId;
 
-	private String pkgAddress;
-
-	private String packageName;
-
+	private int id;
+	private String address;
+	private String name;
 	private String recptMobNo;
-
-	/*
-	 * private double pkgLongitude;
-	 * 
-	 * private double pkgLatitude;
-	 */
-
-	private PackageStatus pkgStatus;
-
+	private Location location;
+	private PackageStatus status;
 	private boolean fragile;
-	
 
-	public String getPackageId() {
-		return packageId;
+
+	public PackageResponseTO(Package pkg) {
+		this.setFragile(pkg.isFragile());
+		this.setId(pkg.getId());
+		this.setName(pkg.getName());
+		this.setAddress(pkg.getAddress());
+		this.setStatus(pkg.getStatus());
+		// respTO.setRecptMobNo(); TODO: need to map User to Package table
 	}
-
-	public void setPackageId(String packageId) {
-		this.packageId = packageId;
-	}
-
-	public String getPkgAddress() {
-		return pkgAddress;
-	}
-
-	public void setPkgAddress(String pkgAddress) {
-		this.pkgAddress = pkgAddress;
-	}
-
-	public String getPackageName() {
-		return packageName;
-	}
-
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
-
-	public String getRecptMobNo() {
-		return recptMobNo;
-	}
-
-	public void setRecptMobNo(String recptMobNo) {
-		this.recptMobNo = recptMobNo;
-	}
-
-
-	public PackageStatus getPkgStatus() {
-		return pkgStatus;
-	}
-
-	public void setPkgStatus(PackageStatus pkgStatus) {
-		this.pkgStatus = pkgStatus;
-	}
-
-	public boolean isFragile() {
-		return fragile;
-	}
-
-	public void setFragile(boolean fragile) {
-		this.fragile = fragile;
-	}
-
 }

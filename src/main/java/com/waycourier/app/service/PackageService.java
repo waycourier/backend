@@ -10,9 +10,9 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import com.waycourier.app.constants.PackageStatus;
 import com.waycourier.app.models.Package;
-import com.waycourier.app.models.PackageEntity;
+import com.waycourier.app.models.PackageIndex;
+import com.waycourier.app.repository.IPackageIndexRepository;
 import com.waycourier.app.repository.IPackageRepository;
-import com.waycourier.app.repository.PackageEntityRepository;
 import com.waycourier.app.to.PackageRequestTO;
 import com.waycourier.app.utility.CustomIdGenerator;
 import com.waycourier.app.utility.GeoUtil;
@@ -20,80 +20,83 @@ import com.waycourier.app.utility.GeoUtil;
 @Service
 public class PackageService {
 	@Autowired
-	IPackageRepository pkgRepo;
+	IPackageRepository packageRepository;
 
 	@Autowired
-	PackageEntityRepository packageEntityRepository;
+	IPackageIndexRepository packageEntityRepository;
 	
 	@Autowired
 	CustomIdGenerator customIdGenerator;
 	
 	//Main service to create a new Package entity and its corresponding Geohash entity
-	public Package createPackage(PackageRequestTO pkg) {
-		Package createdPackage = new Package();
+	public Package createPackage(PackageRequestTO packageRequestTO) {
+		Package p = new Package();
 
 		try {
-			createdPackage.setPackageName(pkg.packageName());
-			createdPackage.setPkgLatitude(pkg.location().lat());
-			createdPackage.setPkgLongitude(pkg.location().lng());
-			createdPackage.setPkgAddress(pkg.deliveryAddress());
-			createdPackage.setPackageId(customIdGenerator.generatePackageId());
-			createdPackage.setRecEndDate(new Date(253402300799000L));
-			createdPackage.setCreatedAt(new Date());
-			createdPackage.setPkgStatus(PackageStatus.CREATED);
-			createdPackage.setFragile((pkg.fragile() != null && pkg.fragile()) ? true : false);
-			createdPackage.setUsername(pkg.username());
-			createdPackage.setRecptMobNo(pkg.recptMobNo());
+			p.setName(packageRequestTO.packageName());
+			p.setLatitude(packageRequestTO.location().lat());
+			p.setLongitude(packageRequestTO.location().lng());
+			p.setAddress(packageRequestTO.deliveryAddress());
+			// p.setId(customIdGenerator.generatePackageId());
+			p.setRecEndDate(new Date(253402300799000L));
+			p.setCreatedAt(new Date());
+			p.setStatus(PackageStatus.CREATED);
+			p.setFragile((packageRequestTO.fragile() != null && packageRequestTO.fragile()) ? true : false);
+			p.setUsername(packageRequestTO.username());
+			// p.setRecptMobNo(packageRequestTO.recptMobNo());
 			
-			createdPackage = pkgRepo.save(createdPackage);
+			p = packageRepository.save(p);
 
-			String geohash = GeoUtil.getGeoHash(pkg.location());
+			String geohash = GeoUtil.getGeoHash(packageRequestTO.location());
 
-			PackageEntity p = new PackageEntity(createdPackage.getPackageId(), createdPackage.getPackageName(), geohash);
-			packageEntityRepository.save(p);
+			PackageIndex pi = new PackageIndex(p, geohash);
+			packageEntityRepository.save(pi);
 			
 		} catch (Exception e) {
 			throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		
-		return createdPackage;
+		return p;
 	}
 	
 	//Main service packages with their packageId
-	public Package findPackagesById(String id) {
+	public Package findPackageById(int id) {
 
-		Optional<Package> pkg = pkgRepo.findByPackageId(id);
+		Optional<Package> p = packageRepository.findById(id);
 
-		if (pkg.isPresent())
-			return pkg.get();
-		else
+		if (p.isPresent()) {
+			return p.get();
+		} else {
 			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "No package found with ID - " + id);
-
+		}
 	}
 
 	//Main service to update package details
-	public Package updatePkgDetails(PackageRequestTO pkg) {
-		Package updatedPkg = this.findPackagesById(pkg.packageId());
+	public Package updatePackage(PackageRequestTO pkg) {
+		Optional<Package> updatedPkg = packageRepository.findById(pkg.packageId());
 		
-		if(updatedPkg == null)
-			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "No package found with ID - " + pkg.packageId());
+		if(!updatedPkg.isPresent()) {
+			throw new HttpClientErrorException(
+				HttpStatus.BAD_REQUEST, 
+				"No package found with ID - " + pkg.packageId()
+			);
+		}
+
 		try {
-			if(pkg.pkgStatus() != null)
-				updatedPkg.setPkgStatus(pkg.pkgStatus());
+			Package p = updatedPkg.get();
+
+			if(pkg.status() != null)
+				p.setStatus(pkg.status());
 			
 			if(pkg.fragile() != null)
-				updatedPkg.setFragile(pkg.fragile());
-			
-			if(pkg.recptMobNo() != null)
-				updatedPkg.setRecptMobNo(pkg.recptMobNo());
+				p.setFragile(pkg.fragile());
 			
 			//TODO: Any other updating feature can be updated later
 			
-			updatedPkg = pkgRepo.save(updatedPkg);
+			return packageRepository.save(p);
+
 		} catch (Exception e) {
 			throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		
-		return updatedPkg;
 	}
 }
