@@ -10,6 +10,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import com.waycourier.app.models.User;
 import com.waycourier.app.repository.IUserRepository;
+import com.waycourier.app.to.UserRequestTO;
 
 @Service
 public class UserService {
@@ -20,13 +21,20 @@ public class UserService {
 	 * @Autowired PasswordEncoder passwordEncoder;
 	 */
 
-	public User createNewUser(User user) {
-		if(user.getUsername() == null || user.getPassword() == null || user.getEmail() == null)
+	public User createNewUser(UserRequestTO user) {
+		if(user.username() == null || user.password() == null || user.email() == null)
 			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Username, Password and Email are mandatory.");
 		
-		user.setPassword(/*passwordEncoder.encode(*/user.getPassword());
+		//user.setPassword(/*passwordEncoder.encode(*/user.password());
+		User newUser = new User();
 		
-		User createdUser = userRepo.save(user);
+		newUser.setFirstName(user.firstName());
+		newUser.setLastName(user.lastName());
+		newUser.setUsername(user.username());
+		newUser.setEmail(user.email());
+		newUser.setPassword(user.password());
+		
+		User createdUser = userRepo.save(newUser);
 
 		if (createdUser == null)
 			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Unable to create user.");

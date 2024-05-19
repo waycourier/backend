@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.waycourier.app.models.User;
 import com.waycourier.app.service.UserService;
+import com.waycourier.app.to.UserRequestTO;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,7 +22,7 @@ public class UserController {
 	UserService userService;
 	
 	@PostMapping("/")
-	ResponseEntity<?> createUser(@RequestBody User userInp){
+	ResponseEntity<?> createUser(@RequestBody UserRequestTO userInp){
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createNewUser(userInp));
 	}
 	
