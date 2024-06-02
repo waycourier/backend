@@ -2,15 +2,17 @@ spring:
   application:
     name: waycourier
   datasource:
-    url: jdbc:postgresql://localhost:5432/location-service
+    url: jdbc:postgresql://localhost:5432/PACKAGE_SERVICE
     username: admin
     password: root
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
   security:
     user:
       name: admin

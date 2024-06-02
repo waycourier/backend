@@ -1,6 +1,7 @@
 package com.waycourier.app.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.waycourier.app.constants.PackageStatus;
+import com.waycourier.app.models.DeliveryRecord;
 import com.waycourier.app.models.Package;
 import com.waycourier.app.models.PackageIndex;
+import com.waycourier.app.models.User;
+import com.waycourier.app.repository.IDeliveryRecordRepository;
 import com.waycourier.app.repository.IPackageIndexRepository;
 import com.waycourier.app.repository.IPackageRepository;
+import com.waycourier.app.repository.IUserRepository;
 import com.waycourier.app.to.PackageRequestTO;
 import com.waycourier.app.utility.CustomIdGenerator;
 import com.waycourier.app.utility.GeoUtil;
@@ -23,10 +28,26 @@ public class PackageService {
 	IPackageRepository packageRepository;
 
 	@Autowired
+	IUserRepository userRepository;
+
+	@Autowired
+	IDeliveryRecordRepository deliveryRecordRepository;
+
+	@Autowired
 	IPackageIndexRepository packageEntityRepository;
 	
 	@Autowired
 	CustomIdGenerator customIdGenerator;
+
+	public void acceptPackageForDelivery(String username, int packageId) {
+		User user = userRepository.findByUsername(username);
+		DeliveryRecord deliveryRecord = new DeliveryRecord();
+		deliveryRecord.setUserId(user.getId());
+		deliveryRecord.setPackageId(packageId);
+		deliveryRecord.setStatus(PackageStatus.ACCEPTED);
+
+		// TODO: update package details in PackageEntity 
+	}
 	
 	//Main service to create a new Package entity and its corresponding Geohash entity
 	public Package createPackage(PackageRequestTO packageRequestTO) {

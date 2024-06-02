@@ -20,34 +20,21 @@ public class Package {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column
 	private Integer Id;
-
-	@Column
 	private String address;
-
-	@Column
 	private String name;
 
-	@Column
 	private Double latitude;
-
-	@Column
 	private Double longitude;
 
-	@Column
 	private PackageStatus status;
 
-	@Column
 	private Date recEndDate;
 
-	@Column
 	private  Date createdAt;
-
-	@Column
-	private boolean fragile;
 	
-	@Column
+	private boolean fragile;
+
 	private String username;
 	
 }

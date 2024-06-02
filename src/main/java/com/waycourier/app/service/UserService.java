@@ -47,12 +47,12 @@ public class UserService {
 		if (username == null || !StringUtils.hasText(username))
 			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Username is mandatory.");
 		
-		List<User> user = userRepo.findByUsername(username);
+		User user = userRepo.findByUsername(username);
 		
-		if(user == null || user.isEmpty())
+		if(user == null)
 				throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "No user found - "+username);
 		
-		return user.get(0);
+		return user;
 	}
 
 	public User updateUserDetails(User userInp) {

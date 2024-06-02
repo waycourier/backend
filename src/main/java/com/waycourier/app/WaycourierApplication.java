@@ -24,37 +24,37 @@ public class WaycourierApplication {
 		SpringApplication.run(WaycourierApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner() {
-		return args -> {
-			File file = new File("/workspaces/codespaces-blank/backend/package_data.txt");
-			try {
-				Scanner scanner = new Scanner(file);
+	// @Bean
+	// public CommandLineRunner commandLineRunner() {
+	// 	return args -> {
+	// 		File file = new File("/workspaces/codespaces-blank/backend/package_data.txt");
+	// 		try {
+	// 			Scanner scanner = new Scanner(file);
 
-				while (scanner.hasNextLine()) {
-					String[] data = scanner.nextLine().split(" ");
+	// 			while (scanner.hasNextLine()) {
+	// 				String[] data = scanner.nextLine().split(" ");
 
-					Location loc = new Location(Double.valueOf(data[2]), Double.valueOf(data[3]));
-					String packageName = String.format("%s %s", data[0], data[1]);
+	// 				Location loc = new Location(Double.valueOf(data[2]), Double.valueOf(data[3]));
+	// 				String packageName = String.format("%s %s", data[0], data[1]);
 					
-					PackageRequestTO packageRequestTO = new PackageRequestTO(
-						null, 
-						packageName, 
-						"", 
-						loc, 
-						null, 
-						"akash",
-						false);
+	// 				PackageRequestTO packageRequestTO = new PackageRequestTO(
+	// 					null, 
+	// 					packageName, 
+	// 					"", 
+	// 					loc, 
+	// 					null, 
+	// 					"akash",
+	// 					false);
 
-					packageService.createPackage(packageRequestTO);
-				}
+	// 				packageService.createPackage(packageRequestTO);
+	// 			}
 
-				scanner.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-			System.out.println("DONE");
-		};
-	}
+	// 			scanner.close();
+	// 		} catch (FileNotFoundException e) {
+	// 			e.printStackTrace();
+	// 		}
+	// 		System.out.println("DONE");
+	// 	};
+	// }
 
 }

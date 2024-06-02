@@ -25,7 +25,7 @@ public class LocationService {
     public List<PackageIndex> getNearbyPackageIndexes(Location location) {
 
         String geohash = GeoUtil.getGeoHash(location, DEFAULT_LOC_PRECISION);
-        List<PackageIndex> nearbyPackages = packageIndexRepository.findByGeoHashLike(geohash.substring(0, 6));
+        List<PackageIndex> nearbyPackages = packageIndexRepository.findByGeoHashLike(geohash.substring(0, 6)+"_");
 
         // TODO: need to convert this to pagination
         nearbyPackages = nearbyPackages.stream().limit(10).toList();
