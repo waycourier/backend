@@ -10,10 +10,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.waycourier.app.constants.PackageStatus;
 import com.waycourier.app.service.PackageService;
-import com.waycourier.app.service.UserService;
 import com.waycourier.app.models.Location;
 import com.waycourier.app.models.User;
 import com.waycourier.app.repository.IUserRepository;
@@ -32,12 +32,17 @@ public class WaycourierApplication {
 		SpringApplication.run(WaycourierApplication.class, args);
 	}
 
+	/*
+	 * load dummy data only for dev testing
+	 */
 	@Bean
+	@Profile("dev")
 	CommandLineRunner commandLineRunner() {
 		return args -> {
-			File file = new File("C:\\Users\\akash\\Documents\\code\\backend\\utils\\package_data.txt");
+			File file = new File(".\\utils\\package_data.txt");
 			try {
 				Scanner scanner = new Scanner(new FileInputStream(file));
+				System.out.println("Data loading..");
 				
 				while (scanner.hasNextLine()) {
 					String[] data = scanner.nextLine().split(" ");
@@ -63,7 +68,7 @@ public class WaycourierApplication {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			System.out.println("DONE");
+			System.out.println("Data loaded");
 		};
 	}
 
