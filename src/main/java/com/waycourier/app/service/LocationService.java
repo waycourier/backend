@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.waycourier.app.models.PackageIndex;
 import com.waycourier.app.repository.IPackageIndexRepository;
+import com.waycourier.app.to.PackageIndexResponseTO;
+import com.waycourier.app.to.PackageResponseTO;
 import com.waycourier.app.models.Location;
 import com.waycourier.app.utility.GeoUtil;
 
@@ -19,15 +21,18 @@ public class LocationService {
         this.packageIndexRepository = packageIndexRepository;
     }
 
-    public List<PackageIndex> getNearbyPackageIndexes(Location location) {
+    public List<PackageIndexResponseTO> getNearbyPackageIndexes(Location location) {
 
         String geohash = GeoUtil.getGeoHash(location, DEFAULT_LOC_PRECISION);
         List<PackageIndex> nearbyPackages = packageIndexRepository.findBySrcGeoHashLike(
-        		geohash.substring(0, 6) + "_");
+        		geohash.substring(0, 6) + "%");
 
         // TODO: need to convert this to pagination
-        nearbyPackages = nearbyPackages.stream().limit(10).toList();
+        List<PackageIndexResponseTO> list = nearbyPackages.stream()
+        		.map(PackageIndexResponseTO::new)
+        		.limit(10)
+        		.toList();
 
-        return nearbyPackages;
+        return list;
     }
 }

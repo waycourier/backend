@@ -45,6 +45,8 @@ public class PackageIndex {
     public PackageIndex(Package pkg, String srcGeoHash, String destGeoHash) {
         this.packageId = pkg.getId();
         this.name = pkg.getName();
+        this.source = pkg.getSource();
+        this.destination = pkg.getDestination();
         this.srcGeoHash = srcGeoHash;
         this.destGeoHash = destGeoHash;
     }

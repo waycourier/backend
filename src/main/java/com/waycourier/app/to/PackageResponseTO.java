@@ -16,9 +16,8 @@ public class PackageResponseTO {
 	private int id;
 	private String address;
 	private String name;
-	private String recptMobNo;
-	private Location location;
-	private PackageStatus status;
+	private Location source;
+	private Location destination;
 	private boolean fragile;
 
 
@@ -27,7 +26,8 @@ public class PackageResponseTO {
 		this.setId(pkg.getId());
 		this.setName(pkg.getName());
 		this.setAddress(pkg.getAddress());
-		this.setStatus(pkg.getStatus());
-		// respTO.setRecptMobNo(); TODO: need to map User to Package table
+		this.setFragile(pkg.isFragile());
+		this.setSource(pkg.getSource());
+		this.setDestination(pkg.getDestination());
 	}
 }

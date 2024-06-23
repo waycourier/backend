@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.waycourier.app.models.PackageIndex;
 import com.waycourier.app.service.LocationService;
 import com.waycourier.app.service.PackageService;
+import com.waycourier.app.to.PackageIndexResponseTO;
 import com.waycourier.app.models.Location;
 
 @RestController
@@ -33,7 +34,7 @@ public class MainController {
     public ResponseEntity<?> getNearbyPackages(
     		@RequestParam("lat") double lat, @RequestParam("lng") double lng) {
         Location loc = new Location(lat, lng);
-        List<PackageIndex> nearbyPackageIndexes = locationService.getNearbyPackageIndexes(loc);
+        List<PackageIndexResponseTO> nearbyPackageIndexes = locationService.getNearbyPackageIndexes(loc);
 
         return ResponseEntity.ok(nearbyPackageIndexes);
     }

@@ -14,6 +14,7 @@ import com.waycourier.app.repository.IPackageIndexRepository;
 import com.waycourier.app.repository.IPackageRepository;
 import com.waycourier.app.repository.IUserRepository;
 import com.waycourier.app.to.PackageRequestTO;
+import com.waycourier.app.to.PackageResponseTO;
 import com.waycourier.app.utility.GeoUtil;
 
 @Service
@@ -63,7 +64,8 @@ public class PackageService {
 		Optional<Package> p = packageRepository.findById(id);
 
 		if (p.isPresent()) {
-			return ResponseEntity.ok(p.get());
+			PackageResponseTO responseTO = new PackageResponseTO(p.get());
+			return ResponseEntity.ok(responseTO);
 		}
 		
 		return ResponseEntity.badRequest().body("No package found with id");
