@@ -1,6 +1,6 @@
 package com.waycourier.app.utility;
 
-import com.waycourier.app.to.Location;
+import com.waycourier.app.models.Location;
 
 import ch.hsr.geohash.GeoHash;
 

@@ -1,0 +1,8 @@
+Phone
+Box
+TV
+Clothes
+Monitor
+Bat
+Footballs
+Disk

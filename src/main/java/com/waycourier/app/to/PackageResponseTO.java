@@ -1,6 +1,7 @@
 package com.waycourier.app.to;
 
 import com.waycourier.app.constants.PackageStatus;
+import com.waycourier.app.models.Location;
 import com.waycourier.app.models.Package;
 
 import lombok.Data;

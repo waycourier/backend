@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.waycourier.app.models.PackageIndex;
 import com.waycourier.app.service.LocationService;
 import com.waycourier.app.service.PackageService;
-import com.waycourier.app.to.Location;
+import com.waycourier.app.models.Location;
 
 @RestController
 @RequestMapping("/api")
@@ -31,7 +30,8 @@ public class MainController {
     private PackageService packageService;
 
     @GetMapping("/search")
-    public ResponseEntity<?> getNearbyPackages(@RequestParam("lat") double lat, @RequestParam("lng") double lng) {
+    public ResponseEntity<?> getNearbyPackages(
+    		@RequestParam("lat") double lat, @RequestParam("lng") double lng) {
         Location loc = new Location(lat, lng);
         List<PackageIndex> nearbyPackageIndexes = locationService.getNearbyPackageIndexes(loc);
 
@@ -39,8 +39,10 @@ public class MainController {
     }
 
     @PostMapping("/deliver/{packageId}")
-    public ResponseEntity<?> acceptPackageForDelivery(Principal principal, @PathVariable int packageId) {
-        String username = principal.getName();
+    public ResponseEntity<?> acceptPackageForDelivery(
+    		Principal principal, @PathVariable int packageId) {
+        
+    	String username = principal.getName();
         packageService.acceptPackageForDelivery(username, packageId);
         
         return null;

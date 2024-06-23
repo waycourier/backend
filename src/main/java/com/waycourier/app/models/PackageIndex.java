@@ -1,8 +1,9 @@
 package com.waycourier.app.models;
 
-import com.waycourier.app.to.Location;
-
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,33 +22,30 @@ public class PackageIndex {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
     private int id;
-
-    @Column
     private int packageId;
+    private String name;
+    private String srcGeoHash;
+    private String destGeoHash;
+    
+    @Embedded
+	@AttributeOverrides({ 
+		@AttributeOverride(name = "lat", column = @Column(name = "src_lat")),
+		@AttributeOverride(name = "lng", column = @Column(name = "src_lng"))
+	})
+	private Location source;
+    
+	@Embedded
+	@AttributeOverrides({ 
+		@AttributeOverride(name = "lat", column = @Column(name = "dest_lat")),
+		@AttributeOverride(name = "lng", column = @Column(name = "dest_lng"))
+	})
+	private Location destination;
 
-    @Column
-    private String Name;
-
-    @Column
-    private String geoHash;
-
-    @Column
-	private Double latitude;
-
-	@Column
-	private Double longitude;
-
-    public PackageIndex(int packageId, String packageName, String geoHash) {
-        this.packageId = packageId;
-        this.Name = packageName;
-        this.geoHash = geoHash;
-    }
-
-    public PackageIndex(Package pkg, String geoHash) {
+    public PackageIndex(Package pkg, String srcGeoHash, String destGeoHash) {
         this.packageId = pkg.getId();
-        this.Name = pkg.getName();
-        this.geoHash = geoHash;
+        this.name = pkg.getName();
+        this.srcGeoHash = srcGeoHash;
+        this.destGeoHash = destGeoHash;
     }
 }

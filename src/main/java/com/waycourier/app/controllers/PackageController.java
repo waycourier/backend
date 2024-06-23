@@ -23,20 +23,14 @@ public class PackageController {
 	@Autowired
 	PackageService packageService;
 
-	// "POST - /api/packages/ -> creates a new Package entity
 	@PostMapping
 	ResponseEntity<?> addPackage(@RequestBody PackageRequestTO packageDataTO) {
-		Package createdPkg = packageService.createPackage(packageDataTO);
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdPkg);
-
+		return packageService.createPackage(packageDataTO);
 	}
 
-	// "GET - /api/packages/Pk001 -> finds package having mentioned packageId
 	@GetMapping("/{pkgId}")
 	ResponseEntity<?> getPackageById(@PathVariable int pkgId) {
-		Package p = packageService.findPackageById(pkgId);
-		return ResponseEntity.ok(new PackageResponseTO(p));
+		return packageService.findPackageById(pkgId);
 	}
 	
 	@PutMapping

@@ -1,15 +1,20 @@
 package com.waycourier.app.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.waycourier.app.constants.PackageStatus;
-import com.waycourier.app.to.Location;
+import com.waycourier.app.to.PackageRequestTO;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,22 +24,43 @@ import lombok.ToString;
 public class Package {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer Id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String address;
 	private String name;
-
-	private Double latitude;
-	private Double longitude;
+	@Embedded
+	@AttributeOverrides({ 
+		@AttributeOverride(name = "lat", column = @Column(name = "src_lat")),
+		@AttributeOverride(name = "lng", column = @Column(name = "src_lng"))
+	})
+	private Location source;
+	
+	@Embedded
+	@AttributeOverrides({ 
+		@AttributeOverride(name = "lat", column = @Column(name = "dest_lat")),
+		@AttributeOverride(name = "lng", column = @Column(name = "dest_lng"))
+	})
+	private Location destination;
+	private LocalDate recEndDate;
+	private LocalDate createdAt;
+	private boolean isFragile;
 
 	private PackageStatus status;
 
-	private Date recEndDate;
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User createdBy;
 
-	private  Date createdAt;
-	
-	private boolean fragile;
-
-	private String username;
-	
+	// decorator
+	public Package(PackageRequestTO requestTO) {
+		this.id = requestTO.packageId();
+		this.address = requestTO.deliveryAddress();
+		this.name = requestTO.packageName();
+		this.source = requestTO.source();
+		this.destination = requestTO.destination();
+		this.status = requestTO.status();
+		this.recEndDate = LocalDate.of(9999, 1, 1);
+		this.createdAt = LocalDate.now();
+		this.isFragile = requestTO.isFragile() == null ? false : requestTO.isFragile();
+	}
 }

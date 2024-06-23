@@ -7,9 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import com.waycourier.app.models.PackageIndex;
 
-
+@Repository
 public interface IPackageIndexRepository extends JpaRepository<PackageIndex, Integer> {
 
-    List<PackageIndex> findByGeoHashLike(String geoHash);
+    List<PackageIndex> findBySrcGeoHashLike(String geoHash);
     
+    List<PackageIndex> findByDestGeoHashLike(String geoHash);
 }
