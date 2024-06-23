@@ -10,9 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
+@NoArgsConstructor
 @Data
 @ToString
 @Table(name = "users")
@@ -35,4 +37,11 @@ public class User {
 
 	@OneToMany(mappedBy = "createdBy")
 	private List<Package> packages;
+
+	public User(String username, String firstName) {
+		this.username = username;
+		this.firstName = firstName;
+	}
+	
+	
 }
