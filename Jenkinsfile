@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build Application') {
             steps {
-                sh 'echo Performing maven build'
+                bat 'echo Performing maven build'
             }
         }
     }
