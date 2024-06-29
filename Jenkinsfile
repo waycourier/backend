@@ -7,5 +7,11 @@ pipeline {
                 sh 'echo Performing maven build'
             }
         }
+
+ 	stage('Package Application') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
     }
 }
