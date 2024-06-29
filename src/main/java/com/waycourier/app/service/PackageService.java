@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import com.waycourier.app.models.DeliveryRecord;
 import com.waycourier.app.models.Package;
 import com.waycourier.app.models.PackageIndex;
 import com.waycourier.app.models.User;
+import com.waycourier.app.repository.IDeliveryRepository;
 import com.waycourier.app.repository.IPackageIndexRepository;
 import com.waycourier.app.repository.IPackageRepository;
 import com.waycourier.app.repository.IUserRepository;
@@ -23,19 +25,24 @@ public class PackageService {
 	private final IPackageRepository packageRepository;
 	private final IUserRepository userRepository;
 	private final IPackageIndexRepository packageEntityRepository;
+	private final IDeliveryRepository deliveryRepository;
 	
 	public PackageService(IPackageRepository packageRepository, IUserRepository userRepository,
-			IPackageIndexRepository packageEntityRepository) {
+			IPackageIndexRepository packageEntityRepository, IDeliveryRepository deliveryRepository) {
 		this.packageRepository = packageRepository;
 		this.userRepository = userRepository;
 		this.packageEntityRepository = packageEntityRepository;
+		this.deliveryRepository = deliveryRepository;
 	}
 
-	// TODO:
-	public void acceptPackageForDelivery(String username, int packageId) {
+	public boolean acceptPackageForDelivery(String username, int packageId) {
 		User user = userRepository.findByUsername(username);
 		
-		// mark package for delviery by user
+		// mark package for delivery by user
+		DeliveryRecord deliveryRecord = new DeliveryRecord(user.getId(), packageId);
+		deliveryRepository.save(deliveryRecord);
+		
+		return true;
 	}
 	
 	/* 

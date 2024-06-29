@@ -21,7 +21,6 @@ import com.waycourier.app.models.Location;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
 public class MainController {
 
     @Autowired
@@ -39,13 +38,15 @@ public class MainController {
         return ResponseEntity.ok(nearbyPackageIndexes);
     }
 
-    @PostMapping("/deliver/{packageId}")
-    public ResponseEntity<?> acceptPackageForDelivery(
-    		Principal principal, @PathVariable int packageId) {
-        
-    	String username = principal.getName();
-        packageService.acceptPackageForDelivery(username, packageId);
-        
-        return null;
-    }
+	@PostMapping("/deliver/{packageId}")
+	public ResponseEntity<?> deliveryPackage(Principal principal, @PathVariable int packageId) {
+
+		String username = principal.getName();
+		boolean accepted = packageService.acceptPackageForDelivery(username, packageId);
+		
+		if(accepted) {
+			return ResponseEntity.accepted().build();
+		}
+		return ResponseEntity.badRequest().body("error occured");
+	}
 }
